@@ -11,6 +11,7 @@
 namespace QATools\QATools\PageObject;
 
 
+use Behat\Mink\Selector\Xpath\Escaper;
 use Behat\Mink\Session;
 use QATools\QATools\PageObject\Element\IElementContainer;
 use QATools\QATools\PageObject\PropertyDecorator\IPropertyDecorator;
@@ -75,5 +76,12 @@ interface IPageFactory
 	 * @return Page
 	 */
 	public function getPage($class_name);
+
+	/**
+	 * Returns the current XPATH escaper.
+	 *
+	 * @return Escaper
+	 */
+	public function getEscaper();
 
 }

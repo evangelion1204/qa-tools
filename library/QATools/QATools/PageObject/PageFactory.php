@@ -11,6 +11,7 @@
 namespace QATools\QATools\PageObject;
 
 
+use Behat\Mink\Selector\Xpath\Escaper;
 use QATools\QATools\PageObject\Annotation\PageUrlAnnotation;
 use QATools\QATools\PageObject\Config\Config;
 use QATools\QATools\PageObject\Config\IConfig;
@@ -90,6 +91,13 @@ class PageFactory implements IPageFactory
 	protected $config;
 
 	/**
+	 * The current XPATH escaper.
+	 *
+	 * @var Escaper
+	 */
+	protected $escaper;
+
+	/**
 	 * Creates PageFactory instance.
 	 *
 	 * @param Session $session Mink session.
@@ -97,6 +105,8 @@ class PageFactory implements IPageFactory
 	 */
 	public function __construct(Session $session, IConfig $config = null)
 	{
+		$this->setEscaper(new Escaper());
+
 		$this->setSession($session);
 		$this->config = isset($config) ? $config : new Config();
 
@@ -214,7 +224,7 @@ class PageFactory implements IPageFactory
 		$selectors_handler = $session->getSelectorsHandler();
 
 		if ( !$selectors_handler->isSelectorRegistered('se') ) {
-			$selectors_handler->registerSelector('se', new SeleniumSelector($selectors_handler));
+			$selectors_handler->registerSelector('se', new SeleniumSelector($selectors_handler, $this->escaper));
 		}
 
 		$this->_session = $session;
@@ -335,6 +345,30 @@ class PageFactory implements IPageFactory
 		$resolved_page_class = $this->pageLocator->resolvePage($class_name);
 
 		return new $resolved_page_class($this);
+	}
+
+	/**
+	 * Returns the current XPATH escaper.
+	 *
+	 * @return Escaper
+	 */
+	public function getEscaper()
+	{
+		return $this->escaper;
+	}
+
+	/**
+	 * Sets the XPATH escaper.
+	 *
+	 * @param Escaper $escaper The escaper.
+	 *
+	 * @return self
+	 */
+	public function setEscaper(Escaper $escaper)
+	{
+		$this->escaper = $escaper;
+
+		return $this;
 	}
 
 }
