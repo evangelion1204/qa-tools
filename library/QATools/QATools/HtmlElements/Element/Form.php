@@ -80,14 +80,7 @@ class Form extends AbstractElementContainer
 	 */
 	private function _autoEscapeForXpath($string)
 	{
-		$selectors_handler = $this->getSelectorsHandler();
-
-		// Needed for Mink 1.x and below.
-		if ( method_exists($selectors_handler, 'xpathLiteral') ) {
-			$string = $selectors_handler->xpathLiteral($string);
-		}
-
-		return $string;
+		return $this->getEscaper()->escapeLiteral($string);
 	}
 
 	/**

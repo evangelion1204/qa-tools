@@ -13,6 +13,7 @@ namespace QATools\QATools\HtmlElements\Element;
 
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Selector\SelectorsHandler;
+use Behat\Mink\Selector\Xpath\Escaper;
 use Behat\Mink\Session;
 use QATools\QATools\HtmlElements\Exception\TypifiedElementException;
 use QATools\QATools\PageObject\Element\INodeElementAware;
@@ -53,12 +54,20 @@ abstract class AbstractTypifiedElement implements ITypifiedElement, INodeElement
 	protected $acceptanceCriteria = array();
 
 	/**
+	 * The current XPATH escaper.
+	 *
+	 * @var Escaper
+	 */
+	protected $escaper;
+
+	/**
 	 * Specifies wrapped WebElement.
 	 *
 	 * @param WebElement $wrapped_element Element to be wrapped.
 	 */
 	public function __construct(WebElement $wrapped_element)
 	{
+		$this->escaper = new Escaper();
 		$this->_wrappedElement = $wrapped_element;
 
 		$this->assertWrappedElement();
@@ -269,6 +278,31 @@ abstract class AbstractTypifiedElement implements ITypifiedElement, INodeElement
 	{
 		return $this->getWrappedElement()->getTagName();
 	}
+
+	/**
+	 * Set the current XPATH escaper.
+	 *
+	 * @param Escaper $escaper The escaper.
+	 *
+	 * @return $this
+	 */
+	public function setEscaper(Escaper $escaper)
+	{
+		$this->escaper = $escaper;
+
+		return $this;
+	}
+
+	/**
+	 * Returns the current XPATH escaper.
+	 *
+	 * @return Escaper
+	 */
+	public function getEscaper()
+	{
+		return $this->escaper;
+	}
+
 
 	/**
 	 * Returns selectors handler.

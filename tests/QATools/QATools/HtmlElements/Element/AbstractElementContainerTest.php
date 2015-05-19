@@ -110,7 +110,10 @@ class AbstractElementContainerTest extends AbstractTypifiedElementTest
 	 */
 	protected function createElement()
 	{
-		return new $this->elementClass($this->webElement, $this->pageFactory);
+		$element = new $this->elementClass($this->webElement, $this->pageFactory);
+		$element->setEscaper($this->escaper);
+
+		return $element;
 	}
 
 }
