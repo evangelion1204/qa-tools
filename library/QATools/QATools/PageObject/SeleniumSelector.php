@@ -45,11 +45,11 @@ class SeleniumSelector implements SelectorInterface
 	 *
 	 * @param SelectorsHandler $selectors_handler Mink selectors handler.
 	 */
-	public function __construct(SelectorsHandler $selectors_handler, Escaper $escaper)
+	public function __construct(SelectorsHandler $selectors_handler)
 	{
 		$this->_handler = $selectors_handler;
 
-		$this->_escaper = $escaper;
+		$this->_escaper = new Escaper();
 	}
 
 	/**

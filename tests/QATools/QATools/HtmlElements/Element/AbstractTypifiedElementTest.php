@@ -11,6 +11,7 @@
 namespace tests\QATools\QATools\HtmlElements\Element;
 
 
+use Behat\Mink\Selector\Xpath\Escaper;
 use Mockery as m;
 use QATools\QATools\HtmlElements\Element\AbstractTypifiedElement;
 use QATools\QATools\PageObject\Element\WebElement;
@@ -63,9 +64,18 @@ class AbstractTypifiedElementTest extends TestCase
 	 */
 	protected $expectedAttributes = array();
 
+	/**
+	 * Mocked XPATH escaper.
+	 *
+	 * @var Escaper
+	 */
+	protected $escaper;
+
 	protected function setUp()
 	{
 		parent::setUp();
+
+		$this->escaper = m::mock('Behat\\Mink\\Selector\\Xpath\\Escaper');
 
 		if ( is_null($this->elementClass) ) {
 			$this->elementClass = '\\tests\\QATools\\QATools\\HtmlElements\\Fixture\\Element\\TypifiedElementChild';
@@ -174,7 +184,10 @@ class AbstractTypifiedElementTest extends TestCase
 	 */
 	protected function createElement()
 	{
-		return new $this->elementClass($this->webElement);
+		$element = new $this->elementClass($this->webElement);
+		$element->setEscaper($this->escaper);
+
+		return $element;
 	}
 
 	/**

@@ -80,7 +80,7 @@ class Form extends AbstractElementContainer
 	 */
 	private function _autoEscapeForXpath($string)
 	{
-		return $this->getPageFactory()->getEscaper()->escapeLiteral($string);
+		return $this->getEscaper()->escapeLiteral($string);
 	}
 
 	/**
